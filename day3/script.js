@@ -91,56 +91,109 @@ function addNote(text, category) {
   return true;
 }
 
-
 // --- Tests ---
 
-// searchNotes
-console.log(searchNotes("javascript"));
-// Expected: [{ id: 4, text: "Revise JavaScript arrays", category: "study" }]
+// 1. searchNotes()
+console.log(
+  "searchNotes - normal:",
+  JSON.stringify(searchNotes("javascript"))
+);
+// Expected: [{"id":4,"text":"Revise JavaScript arrays","category":"study"}]
 
-console.log(searchNotes("python"));
+console.log(
+  "searchNotes - no results:",
+  JSON.stringify(searchNotes("python"))
+);
 // Expected: []
 
-// longestNote
-console.log(longestNote());
-// Expected: { id: 3, text: "Email the project report to Grace", category: "work" }
 
-const savedNotes = notes;
+// 2. longestNote()
+console.log("longestNote - normal:", JSON.stringify(longestNote()));
+// Expected: {"id":3,"text":"Email the project report to Grace","category":"work"}
+
+const originalNotes = notes;
+
 notes = [];
-console.log(longestNote());
+console.log("longestNote - empty:", longestNote());
 // Expected: null
-notes = savedNotes;
 
-console.log([]);
-// Expected edge case: [] is an empty array example; longestNote() would return null if notes were empty.
+notes = originalNotes;
 
-// countByCategory
-console.log(countByCategory());
-// Expected: { personal: 2, study: 2, work: 1 }
 
-console.log(notes.filter((note) => note.category === "work"));
-// Expected: [{ id: 3, text: "Email the project report to Grace", category: "work" }]
+// 3. countByCategory()
+console.log(
+  "countByCategory - normal:",
+  JSON.stringify(countByCategory())
+);
+// Expected: {"personal":2,"study":2,"work":1}
 
-// getSummary
-console.log(getSummary());
+notes = [];
+console.log(
+  "countByCategory - empty:",
+  JSON.stringify(countByCategory())
+);
+// Expected: {}
+
+notes = originalNotes;
+
+
+// 4. getSummary()
+console.log("getSummary - normal:", getSummary());
 // Expected: "5 notes: 2 personal, 1 work, 2 study."
 
-console.log(notes.length === 0 ? "0 notes: 0 personal, 0 work, 0 study." : getSummary());
-// Expected: "5 notes: 2 personal, 1 work, 2 study."
+notes = [];
+console.log("getSummary - empty:", getSummary());
+// Expected: "0 notes: 0 personal, 0 work, 0 study."
 
-// isDuplicate
-console.log(isDuplicate("  BUY MILK AND BREAD  "));
+notes = [{ id: 6, text: "Study", category: "study" }];
+console.log("getSummary - singular:", getSummary());
+// Expected: "1 note: 0 personal, 0 work, 1 study."
+
+notes = originalNotes;
+
+
+// 5. isDuplicate()
+console.log(
+  "isDuplicate - existing text:",
+  isDuplicate("  BUY MILK AND BREAD  ")
+);
 // Expected: true
 
-console.log(isDuplicate("Learn JavaScript functions"));
+console.log(
+  "isDuplicate - new text:",
+  isDuplicate("Learn JavaScript functions")
+);
 // Expected: false
 
-// addNote
-console.log(addNote("Learn JavaScript functions", "study"));
+
+// 6. addNote()
+console.log(
+  "addNote - valid note:",
+  addNote("Learn JavaScript functions", "study")
+);
 // Expected: true
 
-console.log(addNote("  Buy milk and bread  ", "personal"));
-// Expected: false because it is a duplicate
+console.log(
+  "addNote - duplicate:",
+  addNote("  Buy milk and bread  ", "personal")
+);
+// Expected: false
 
-console.log(addNote("A new note", "invalid"));
-// Expected: false because the category is invalid
+console.log(
+  "addNote - invalid category:",
+  addNote("Another note", "invalid")
+);
+// Expected: false
+
+console.log(
+  "addNote - empty text:",
+  addNote("   ", "personal")
+);
+// Expected: false
+
+console.log(
+  "addNote - text over 200 characters:",
+  addNote("a".repeat(201), "personal")
+);
+// Expected: false
+
